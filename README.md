@@ -10,4 +10,6 @@ Valoraré la tarea "Tarea 4.4. Documentación JavaDoc" después de las mejoras s
 
 Entrega dos urls:
 ### * Issues creados: Donde estén todos los issues que has creado 
+https://github.com/Hugovipe1/Tarea-4.13.-Practica6.-Git.-Issues/issues?q=is%3Aissue+is%3Aclosed
 ### * Issues cerrados: Donde estén todos los issues que has cerrado
+https://github.com/mriadev/Tarea-4.13.-Practica6.-Git.-Issues/issues?q=is%3Aissue+is%3Aclosed
