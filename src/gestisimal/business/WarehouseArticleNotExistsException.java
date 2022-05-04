@@ -6,6 +6,7 @@ package gestisimal.business;
  */
 public class WarehouseArticleNotExistsException extends Exception {
 
+  private static final long serialVersionUID = 1L;
   /**
    * @param string
    */
@@ -13,9 +14,6 @@ public class WarehouseArticleNotExistsException extends Exception {
    super();
   }
 
-  /**
-   * 
-   */
-  private static final long serialVersionUID = 1L;
+
 
 }

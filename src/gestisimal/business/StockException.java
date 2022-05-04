@@ -6,6 +6,8 @@ package gestisimal.business;
  */
 public class StockException extends Exception {
 
+  private static final long serialVersionUID = 1L;
+  
   /**
    * @param message
    */
@@ -13,9 +15,6 @@ public class StockException extends Exception {
     super(message);
   }
 
-  /**
-   * 
-   */
-  private static final long serialVersionUID = 1L;
+
 
 }

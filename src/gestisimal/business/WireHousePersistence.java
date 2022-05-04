@@ -36,6 +36,13 @@ public class WireHousePersistence {
   private static final String JSON = "json";
   private static final String XML = "xml";
 
+  /**
+   * @param articles
+   * @param file
+   * @throws ParserConfigurationException
+   * @throws SAXException
+   * @throws IOException
+   */
   static void load(List<Article> articles,String file) throws ParserConfigurationException, SAXException, IOException {
     String extensionFile = file.substring(file.lastIndexOf(".")+1);
     errorIfTypeFileNotDeduced(extensionFile);
@@ -43,6 +50,13 @@ public class WireHousePersistence {
     importJson(articles, file, extensionFile);
   }
   
+  /**
+   * @param articles
+   * @param file
+   * @throws ParserConfigurationException
+   * @throws IOException
+   * @throws TransformerException
+   */
   static void save(List<Article> articles,String file) throws ParserConfigurationException, IOException, TransformerException {
     String extensionFile = file.substring(file.lastIndexOf(".")+1);
     errorIfTypeFileNotDeduced(extensionFile);
@@ -50,6 +64,14 @@ public class WireHousePersistence {
     exportJson(articles);
   }
   
+  /**
+   * @param articles
+   * @param file
+   * @param extensionFile
+   * @throws ParserConfigurationException
+   * @throws SAXException
+   * @throws IOException
+   */
   private static void importXml(List<Article> articles,String file, String extensionFile)
       throws ParserConfigurationException, SAXException, IOException {
     if (extensionFile.equals(XML)) {
@@ -86,7 +108,13 @@ public class WireHousePersistence {
     }
   }
 
-   private static void importJson(List<Article> articles,String file, String extensionFile) throws IOException {
+   /**
+   * @param articles
+   * @param file
+   * @param extensionFile
+   * @throws IOException
+   */
+  private static void importJson(List<Article> articles,String file, String extensionFile) throws IOException {
     if (extensionFile.equals(JSON)) {
       String json = Files.readString(Paths.get(file));
       Gson gson = new Gson();
@@ -96,7 +124,13 @@ public class WireHousePersistence {
     }
   }
    
-   private static void exportXml(List<Article> articles) throws ParserConfigurationException, IOException, TransformerException {
+   /**
+   * @param articles
+   * @throws ParserConfigurationException
+   * @throws IOException
+   * @throws TransformerException
+   */
+  private static void exportXml(List<Article> articles) throws ParserConfigurationException, IOException, TransformerException {
      DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
      DocumentBuilder builder = factory.newDocumentBuilder();
      Document document = builder.newDocument();
@@ -160,14 +194,21 @@ public class WireHousePersistence {
    }
    
 
-   private static void exportJson(List<Article> articles) throws IOException {
+   /**
+   * @param articles
+   * @throws IOException
+   */
+  private static void exportJson(List<Article> articles) throws IOException {
      String json = new Gson().toJson(articles);
      BufferedWriter file = new BufferedWriter(new FileWriter("almacen.json"));
      file.write(json);
      file.close();
    }
    
-   private static void errorIfTypeFileNotDeduced(String extensionFile) {
+   /**
+   * @param extensionFile
+   */
+  private static void errorIfTypeFileNotDeduced(String extensionFile) {
      if(!extensionFile.equals(XML) || !extensionFile.equals(JSON)) {
        throw new IllegalArgumentException("No se puede deducir el tipo del fichero.");
      }

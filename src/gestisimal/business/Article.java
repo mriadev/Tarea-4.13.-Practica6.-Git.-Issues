@@ -2,18 +2,14 @@ package gestisimal.business;
 
 import java.util.Objects;
 
+
 /**
  * @author Maria Cervilla Alcalde
+ */
+
+/**
+ * Clase Artículo que representa los artículos del almacén.
  * 
- *         Clase Artículo que representa a los artículos del almacén. Su estado será: código,
- *         nombre, marca, precio de compra, precio de venta, número de unidades (nunca negativas),
- *         stock de seguridad y stock máximo (si no proporcionamos los valores de stock valen cero,
- *         igualmente si no proporcionamos el del stock de seguridad). Como comportamiento:
- *         Consideramos que el código va a generarse de forma automática en el constructor, así no
- *         puede haber dos artículos con el mismo código. Esto implica que no puede modificarse el
- *         código de un artículo, sí el resto de las propiedades. Podremos mostrar el artículo, por
- *         lo que necesito una representación del artículo en forma de cadena (toString).
- *
  */
 public class Article {
   private static int lastCode = 0;
@@ -28,12 +24,32 @@ public class Article {
   private int maxStock;
 
 
+  /**
+   * Crea un artículo.
+   * @param name
+   * @param brand
+   * @param numberUnits
+   * @param purchasePrice
+   * @param sellingPrice
+   * @param safetyStock
+   * @param maxStock
+   */
   Article(String name, String brand, int numberUnits, double purchasePrice, double sellingPrice,
       int safetyStock, int maxStock) {
     this.code = ++lastCode;
     set(name, brand, numberUnits, purchasePrice, sellingPrice, safetyStock, maxStock);
   }
 
+  /**
+   * Asigna los valores de los atributos de artículo.
+   * @param name
+   * @param brand
+   * @param numberUnits
+   * @param purchasePrice
+   * @param sellingPrice
+   * @param safetyStock
+   * @param maxStock
+   */
   void set(String name, String brand, int numberUnits, double purchasePrice, double sellingPrice,
       int safetyStock, int maxStock) {
     setName(name);
@@ -46,30 +62,71 @@ public class Article {
 
   }
 
+  /**
+   * Crea un artículo.
+   * @param code
+   * @param name
+   * @param brand
+   * @param numberUnits
+   * @param purchasePrice
+   * @param sellingPrice
+   * @param safetyStock
+   * @param maxStock
+   */
   Article(int code, String name, String brand, int numberUnits, double purchasePrice,
       double sellingPrice, int safetyStock, int maxStock) {
     this(name, brand, numberUnits, purchasePrice, sellingPrice, safetyStock, maxStock);
     this.code = code;
   }
 
+  /**
+   * Crea un artículo.
+   * @param name
+   * @param brand
+   * @param purchasePrice
+   * @param sellingPrice
+   * @param numberUnits
+   * @param safetyStock
+   */
   Article(String name, String brand, double purchasePrice, double sellingPrice, int numberUnits,
       int safetyStock) {
     this(name, brand, numberUnits, purchasePrice, sellingPrice, safetyStock, 0);
   }
 
+  /**
+   * Crea un artículo.
+   * @param name
+   * @param brand
+   * @param purchasePrice
+   * @param sellingPrice
+   * @param numberUnits
+   */
   Article(String name, String brand, double purchasePrice, double sellingPrice, int numberUnits) {
     this(name, brand, numberUnits, purchasePrice, sellingPrice, 0, 0);
   }
 
+  /**
+   * Crea un artículo.
+   * @param code
+   */
   Article(int code) {
     this.code = code;
   }
 
 
+  /**
+   * Añade unidades al artículo.
+   * @param units
+   */
   void addUnits(int units) {
     numberUnits += units;
   }
 
+  /**
+   * Incrementa unidades al artículo.
+   * @param units
+   * @throws StockException
+   */
   void deleteUnits(int units) throws StockException {
     if (numberUnits < units) {
       throw new StockException("Stock insuficiente.");
@@ -77,27 +134,47 @@ public class Article {
     numberUnits -= units;
   }
 
+  /**
+   * Devuelve el código del artículo.
+   * @return
+   */
   public int getCode() {
     return code;
   }
 
+  /**
+   * Devuelve el nombre del artículo.
+   * @return
+   */
   public String getName() {
     return name;
   }
 
 
+  /**
+   * Asigna el nombre del artículo.
+   * @param name
+   */
   void setName(String name) {
     throwsExceptionIfIncorrectFact(name);
     this.name = name;
   }
 
 
+  /**
+   * Devuelve la marca del artículo.
+   * @return
+   */
   public String getBrand() {
     return brand;
   }
 
 
 
+  /**
+   * Asigna la marca del artículo.
+   * @param brand
+   */
   void setBrand(String brand) {
     throwsExceptionIfIncorrectFact(brand);
     this.brand = brand;
@@ -105,12 +182,20 @@ public class Article {
 
 
 
+  /**
+   * Devuelve el precio de compra del artículo.
+   * @return
+   */
   public double getPurchasePrice() {
     return purchasePrice;
   }
 
 
 
+  /**
+   * Asigna el precio de compra del artículo.
+   * @param purchasePrice
+   */
   void setPurchasePrice(double purchasePrice) {
     throwsExceptionIfAmountIsNegative(purchasePrice);
     this.purchasePrice = purchasePrice;
@@ -118,12 +203,20 @@ public class Article {
 
 
 
+  /**
+   * Devuelve el precio de venta del artículo.
+   * @return
+   */
   public double getSellingPrice() {
     return sellingPrice;
   }
 
 
 
+  /**
+   * Asigna el precio de venta del artículo.
+   * @param sellingPrice
+   */
   void setSellingPrice(double sellingPrice) {
     throwsExceptionIfAmountIsNegative(sellingPrice);
     this.sellingPrice = sellingPrice;
@@ -131,12 +224,20 @@ public class Article {
 
 
 
+  /**
+   * Devuelve el número de unidades del artículo.
+   * @return
+   */
   public int getNumberUnits() {
     return numberUnits;
   }
 
 
 
+  /**
+   * Asigna el número de unidades de un artículo.
+   * @param numberUnits
+   */
   void setNumberUnits(int numberUnits) {
     throwsExceptionIfAmountIsNegative(numberUnits);
     this.numberUnits = numberUnits;
@@ -144,21 +245,37 @@ public class Article {
 
 
 
+  /**
+   * Devuelve el stock de seguridad del artículo.
+   * @return
+   */
   public int getSafetyStock() {
     return safetyStock;
   }
 
 
 
+  /**
+   * Asigna el stock de seguridad del artículo.
+   * @param safetyStock
+   */
   void setSafetyStock(int safetyStock) {
     throwsExceptionIfAmountIsNegative(safetyStock);
     this.safetyStock = safetyStock;
   }
 
+  /**
+   * Devuelve el stock máximo del artículo.
+   * @return
+   */
   public int getMaxStock() {
     return maxStock;
   }
 
+  /**
+   * Asigna el stock máximo del artículo.
+   * @param maxStock
+   */
   void setMaxStock(int maxStock) {
     throwsExceptionIfAmountIsNegative(maxStock);
     if (maxStock < safetyStock) {

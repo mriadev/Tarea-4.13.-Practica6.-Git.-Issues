@@ -8,29 +8,51 @@ import javax.xml.transform.TransformerException;
 import org.xml.sax.SAXException;
 import static gestisimal.business.WireHousePersistence.*;
 
+
+
+
 /**
  * @author Maria Cervilla Alcalde
- *
- *         Clase Almacén que realice el alta, baja, modificación, entrada de mercancía (incrementa
- *         unidades), salida de mercancía (decrementa unidades). El estado será un ArrayList de
- *         artículos (pero la clase no será un ArrayList) Su comportamiento será: añadir artículos
- *         (no puede haber dos artículos con el mismo nombre y marca), eliminar artículos,
- *         incrementar las existencias de un artículo (se delega en la clase Artículo), decrementar
- *         las existencias de un artículo (nunca por debajo de cero, se delega en la clase
- *         Artículo), devolver un artículo (para mostrarlo). Para listar el almacén podría
- *         devolverse una cadena con todos los artículos del almacén (toString).
+ */
+
+/**
+ * Clase Almacén para la manipulación de artículos
+ * 
  */
 public class Warehouse {
 
+
   private List<Article> articles = new ArrayList<Article>();
 
-
+  /**
+   * Crea un almacén vacío.
+   */
   public Warehouse() {}
 
-  public Warehouse(String file) throws IOException, ParserConfigurationException, SAXException { 
-    load(articles,file);
+  /**
+   * Crea un almacén cargando un fichero xml o json.
+   * 
+   * @param file
+   * @throws IOException
+   * @throws ParserConfigurationException
+   * @throws SAXException
+   */
+  public Warehouse(String file) throws IOException, ParserConfigurationException, SAXException {
+    load(articles, file);
   }
 
+  /**
+   * Añade un artículo al almacén.
+   * 
+   * @param name
+   * @param brand
+   * @param numberUnits
+   * @param purchasePrice
+   * @param sellingPrice
+   * @param safetyStock
+   * @param maxStock
+   * @throws PreviouslyEnteredArticleException
+   */
   public void add(String name, String brand, int numberUnits, double purchasePrice,
       double sellingPrice, int safetyStock, int maxStock) throws PreviouslyEnteredArticleException {
     for (Article art : articles) {
@@ -43,18 +65,42 @@ public class Warehouse {
   }
 
 
+  /**
+   * 
+   * Añade un artículo al almacén.
+   * 
+   * @param name
+   * @param brand
+   * @param numberUnits
+   * @param purchasePrice
+   * @param sellingPrice
+   * @throws PreviouslyEnteredArticleException
+   */
   public void add(String name, String brand, int numberUnits, double purchasePrice,
       double sellingPrice) throws PreviouslyEnteredArticleException {
     add(name, brand, numberUnits, purchasePrice, sellingPrice, 0, 0);
 
   }
 
+  /**
+   * Borra un artículo del almacén.
+   * 
+   * @param code
+   * @throws WarehouseArticleNotExistsException
+   */
   public void remove(int code) throws WarehouseArticleNotExistsException {
     existCode(code);
     articles.removeIf(articles -> articles.getCode() == code);
   }
 
 
+  /**
+   * Incrementa el stock de un artículo.
+   * 
+   * @param code
+   * @param units
+   * @throws WarehouseArticleNotExistsException
+   */
   public void increaseStock(int code, int units) throws WarehouseArticleNotExistsException {
     existCode(code);
     Article art = get(code);
@@ -62,6 +108,14 @@ public class Warehouse {
   }
 
 
+  /**
+   * Decrementa el stock de un artículo
+   * 
+   * @param code
+   * @param units
+   * @throws StockException
+   * @throws WarehouseArticleNotExistsException
+   */
   public void decreaseStock(int code, int units)
       throws StockException, WarehouseArticleNotExistsException {
     existCode(code);
@@ -69,6 +123,20 @@ public class Warehouse {
     art.deleteUnits(units);
   }
 
+  /**
+   * Modifíca un artículo.
+   * 
+   * @param code
+   * @param name
+   * @param brand
+   * @param numberUnits
+   * @param purchasePrice
+   * @param sellingPrice
+   * @param safetyStock
+   * @param maxStock
+   * @throws WarehouseArticleNotExistsException
+   * @throws PreviouslyEnteredArticleException
+   */
   public void modify(int code, String name, String brand, int numberUnits, double purchasePrice,
       double sellingPrice, int safetyStock, int maxStock)
       throws WarehouseArticleNotExistsException, PreviouslyEnteredArticleException {
@@ -84,16 +152,37 @@ public class Warehouse {
   }
 
 
+  /**
+   * Busca un artículo.
+   * 
+   * @param code
+   * @return
+   */
   public Article get(int code) {
     return articles.get(articles.indexOf(new Article(code)));
   }
 
 
-  public void saveFile(String file) throws ParserConfigurationException, IOException, TransformerException {
+  /**
+   * Guarda el almacén en un fichero.
+   * 
+   * @param file
+   * @throws ParserConfigurationException
+   * @throws IOException
+   * @throws TransformerException
+   */
+  public void saveFile(String file)
+      throws ParserConfigurationException, IOException, TransformerException {
     save(articles, file);
   }
 
 
+  /**
+   * Comprueba si exite un artículo.
+   * 
+   * @param code
+   * @throws WarehouseArticleNotExistsException
+   */
   private void existCode(int code) throws WarehouseArticleNotExistsException {
     if (articles.contains(new Article(code))) {
       return;
@@ -102,6 +191,9 @@ public class Warehouse {
   }
 
 
+  /**
+   * Imprime el almacén
+   */
   @Override
   public String toString() {
     String str = "";

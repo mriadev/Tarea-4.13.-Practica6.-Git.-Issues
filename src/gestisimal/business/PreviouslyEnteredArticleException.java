@@ -6,6 +6,7 @@ package gestisimal.business;
  */
 public class PreviouslyEnteredArticleException extends Exception {
 
+  private static final long serialVersionUID = 1L;
   /**
    * @param string
    */
@@ -13,10 +14,7 @@ public class PreviouslyEnteredArticleException extends Exception {
     super();
   }
 
-  /**
-   * 
-   */
-  private static final long serialVersionUID = 1L;
+
   
   
 
