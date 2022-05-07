@@ -28,51 +28,67 @@ import com.google.gson.reflect.TypeToken;
 
 
 /**
+ * Conjunto de funciones para el guardado y recuperación de almacenes con ficheros XML y JSON
+ * 
  * @author Maria Cervilla Alcalde
  *
  */
 public class WireHousePersistence {
 
+  /**
+   * Extensión JSON
+   */
   private static final String JSON = "json";
+  /**
+   * Extensión XML
+   */
   private static final String XML = "xml";
 
   /**
-   * @param articles
-   * @param file
+   * Cargar artículos de un fichero XML o JSON
+   * 
+   * @param articles Lista de artículos
+   * @param file Fichero
    * @throws ParserConfigurationException
    * @throws SAXException
    * @throws IOException
    */
-  static void load(List<Article> articles,String file) throws ParserConfigurationException, SAXException, IOException {
-    String extensionFile = file.substring(file.lastIndexOf(".")+1);
+  static void load(List<Article> articles, String file)
+      throws ParserConfigurationException, SAXException, IOException {
+    String extensionFile = file.substring(file.lastIndexOf(".") + 1);
     errorIfTypeFileNotDeduced(extensionFile);
     importXml(articles, file, extensionFile);
     importJson(articles, file, extensionFile);
   }
-  
+
   /**
-   * @param articles
-   * @param file
+   * Guardar artículos de un fichero XML o JSON en un almacén
+   * 
+   * @param articles Lista de artículos
+   * @param file Fichero
    * @throws ParserConfigurationException
    * @throws IOException
    * @throws TransformerException
    */
-  static void save(List<Article> articles,String file) throws ParserConfigurationException, IOException, TransformerException {
-    String extensionFile = file.substring(file.lastIndexOf(".")+1);
+  static void save(List<Article> articles, String file)
+      throws ParserConfigurationException, IOException, TransformerException {
+    String extensionFile = file.substring(file.lastIndexOf(".") + 1);
     errorIfTypeFileNotDeduced(extensionFile);
     exportXml(articles);
     exportJson(articles);
   }
-  
+
   /**
-   * @param articles
-   * @param file
+   * Cargar artículos de un fichero XML
+   * 
+   * @param articles Lista de artículos
+   * @param file Fichero
    * @param extensionFile
    * @throws ParserConfigurationException
    * @throws SAXException
    * @throws IOException
    */
-  private static void importXml(List<Article> articles,String file, String extensionFile)
+  private static void importXml(List<Article> articles, String file, String extensionFile)
       throws ParserConfigurationException, SAXException, IOException {
     if (extensionFile.equals(XML)) {
       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -87,34 +103,37 @@ public class WireHousePersistence {
 
         Node node = nodes.item(i);
         Element article = (Element) node;
-        
+
         int code = Integer.parseInt(article.getAttribute("code"));
         String name = article.getElementsByTagName("name").item(0).getTextContent();
         String brand = article.getElementsByTagName("brand").item(0).getTextContent();
-        int units = Integer
-            .parseInt(article.getElementsByTagName("units").item(0).getTextContent());
+        int units =
+            Integer.parseInt(article.getElementsByTagName("units").item(0).getTextContent());
         double purchasePrice = Double
             .parseDouble(article.getElementsByTagName("purchasePrice").item(0).getTextContent());
         double sellingPrice = Double
             .parseDouble(article.getElementsByTagName("sellingPrice").item(0).getTextContent());
-        int safetyStock = Integer
-            .parseInt(article.getElementsByTagName("safetyStock").item(0).getTextContent());
+        int safetyStock =
+            Integer.parseInt(article.getElementsByTagName("safetyStock").item(0).getTextContent());
         int maxStock =
             Integer.parseInt(article.getElementsByTagName("maxStock").item(0).getTextContent());
 
-        articles.add(new Article(code, name, brand, units, purchasePrice, sellingPrice,
-            safetyStock, maxStock));
+        articles.add(new Article(code, name, brand, units, purchasePrice, sellingPrice, safetyStock,
+            maxStock));
       }
     }
   }
 
-   /**
-   * @param articles
-   * @param file
+  /**
+   * Cargar artículos de un fichero JSON
+   * 
+   * @param articles Lista de artículos
+   * @param file Fichero
    * @param extensionFile
    * @throws IOException
    */
-  private static void importJson(List<Article> articles,String file, String extensionFile) throws IOException {
+  private static void importJson(List<Article> articles, String file, String extensionFile)
+      throws IOException {
     if (extensionFile.equals(JSON)) {
       String json = Files.readString(Paths.get(file));
       Gson gson = new Gson();
@@ -123,94 +142,104 @@ public class WireHousePersistence {
       return;
     }
   }
-   
-   /**
-   * @param articles
+
+  /**
+   * Guardar artículos de un fichero XML en un almacén
+   * 
+   * @param articles Lista de artículos
    * @throws ParserConfigurationException
    * @throws IOException
    * @throws TransformerException
    */
-  private static void exportXml(List<Article> articles) throws ParserConfigurationException, IOException, TransformerException {
-     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-     DocumentBuilder builder = factory.newDocumentBuilder();
-     Document document = builder.newDocument();
+  private static void exportXml(List<Article> articles)
+      throws ParserConfigurationException, IOException, TransformerException {
+    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+    DocumentBuilder builder = factory.newDocumentBuilder();
+    Document document = builder.newDocument();
 
-     Element root = document.createElement("almacen");
-     document.appendChild(root);
+    Element root = document.createElement("almacen");
+    document.appendChild(root);
 
-     for (Article article : articles) {
-       // Nodo raiz
-       Element elementArt = document.createElement("article");
-       root.appendChild(elementArt);
+    for (Article article : articles) {
+      // Nodo raiz
+      Element elementArt = document.createElement("article");
+      root.appendChild(elementArt);
 
-       // Atributo código
-       Attr attrCod = document.createAttribute("code");
-       attrCod.setValue(Integer.toString(article.getCode()));
-       elementArt.setAttributeNode(attrCod);
+      // Atributo código
+      Attr attrCod = document.createAttribute("code");
+      attrCod.setValue(Integer.toString(article.getCode()));
+      elementArt.setAttributeNode(attrCod);
 
-       // Nodo nombre
-       Element elementName = document.createElement("name");
-       elementName.appendChild(document.createTextNode(article.getName()));
-       elementArt.appendChild(elementName);
+      // Nodo nombre
+      Element elementName = document.createElement("name");
+      elementName.appendChild(document.createTextNode(article.getName()));
+      elementArt.appendChild(elementName);
 
-       // Nodo marca
-       Element elementBrand = document.createElement("brand");
-       elementBrand.appendChild(document.createTextNode(article.getBrand()));
-       elementArt.appendChild(elementBrand);
+      // Nodo marca
+      Element elementBrand = document.createElement("brand");
+      elementBrand.appendChild(document.createTextNode(article.getBrand()));
+      elementArt.appendChild(elementBrand);
 
-       // Nodo numberUnits
-       Element elementNumberUnits = document.createElement("units");
-       elementNumberUnits.appendChild(document.createTextNode(Integer.toString(article.getNumberUnits())));
-       elementArt.appendChild(elementNumberUnits);
+      // Nodo numberUnits
+      Element elementNumberUnits = document.createElement("units");
+      elementNumberUnits
+          .appendChild(document.createTextNode(Integer.toString(article.getNumberUnits())));
+      elementArt.appendChild(elementNumberUnits);
 
-       // Nodo purchasePrice
-       Element elementPurchasePrice = document.createElement("purchasePrice");
-       elementPurchasePrice
-           .appendChild(document.createTextNode(Double.toString(article.getPurchasePrice())));
-       elementArt.appendChild(elementPurchasePrice);
+      // Nodo purchasePrice
+      Element elementPurchasePrice = document.createElement("purchasePrice");
+      elementPurchasePrice
+          .appendChild(document.createTextNode(Double.toString(article.getPurchasePrice())));
+      elementArt.appendChild(elementPurchasePrice);
 
-       // Nodo sellingPrice
-       Element elementSellingPrice = document.createElement("sellingPrice");
-       elementSellingPrice
-           .appendChild(document.createTextNode(Double.toString(article.getSellingPrice())));
-       elementArt.appendChild(elementSellingPrice);
+      // Nodo sellingPrice
+      Element elementSellingPrice = document.createElement("sellingPrice");
+      elementSellingPrice
+          .appendChild(document.createTextNode(Double.toString(article.getSellingPrice())));
+      elementArt.appendChild(elementSellingPrice);
 
-       // Nodo safetyStock
-       Element elementSafetyStock = document.createElement("safetyStock");
-       elementSafetyStock.appendChild(document.createTextNode(Integer.toString(article.getSafetyStock())));
-       elementArt.appendChild(elementSafetyStock);
+      // Nodo safetyStock
+      Element elementSafetyStock = document.createElement("safetyStock");
+      elementSafetyStock
+          .appendChild(document.createTextNode(Integer.toString(article.getSafetyStock())));
+      elementArt.appendChild(elementSafetyStock);
 
-       // Nodo maxStock
-       Element elementMaxStock = document.createElement("maxStock");
-       elementMaxStock.appendChild(document.createTextNode(Integer.toString(article.getMaxStock())));
-       elementArt.appendChild(elementMaxStock);
-     }
+      // Nodo maxStock
+      Element elementMaxStock = document.createElement("maxStock");
+      elementMaxStock.appendChild(document.createTextNode(Integer.toString(article.getMaxStock())));
+      elementArt.appendChild(elementMaxStock);
+    }
 
-     TransformerFactory transformerFactory = TransformerFactory.newInstance();
-     Transformer transformer = transformerFactory.newTransformer();
-     DOMSource source = new DOMSource(document);
-     StreamResult result = new StreamResult(new FileWriter("almacen.xml"));
-     transformer.transform(source, result);
-   }
-   
+    TransformerFactory transformerFactory = TransformerFactory.newInstance();
+    Transformer transformer = transformerFactory.newTransformer();
+    DOMSource source = new DOMSource(document);
+    StreamResult result = new StreamResult(new FileWriter("almacen.xml"));
+    transformer.transform(source, result);
+  }
 
-   /**
-   * @param articles
+
+  /**
+   * Guardar artículos de un fichero JSON en un almacén
+   * 
+   * @param articles Lista de artículos
    * @throws IOException
    */
   private static void exportJson(List<Article> articles) throws IOException {
-     String json = new Gson().toJson(articles);
-     BufferedWriter file = new BufferedWriter(new FileWriter("almacen.json"));
-     file.write(json);
-     file.close();
-   }
-   
-   /**
-   * @param extensionFile
+    String json = new Gson().toJson(articles);
+    BufferedWriter file = new BufferedWriter(new FileWriter("almacen.json"));
+    file.write(json);
+    file.close();
+  }
+
+  /**
+   * Error si la extensión del fichero no es la esperada
+   * 
+   * @param extensionFile Extensión del fichero
    */
   private static void errorIfTypeFileNotDeduced(String extensionFile) {
-     if(!extensionFile.equals(XML) || !extensionFile.equals(JSON)) {
-       throw new IllegalArgumentException("No se puede deducir el tipo del fichero.");
-     }
-   }
+    if (!extensionFile.equals(XML) || !extensionFile.equals(JSON)) {
+      throw new IllegalArgumentException("No se puede deducir el tipo del fichero.");
+    }
+  }
 }
+

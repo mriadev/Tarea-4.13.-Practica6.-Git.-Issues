@@ -2,37 +2,58 @@ package gestisimal.business;
 
 import java.util.Objects;
 
-
-/**
- * @author Maria Cervilla Alcalde
- */
-
 /**
  * Clase Artículo que representa los artículos del almacén.
  * 
+ * 
+ * @author Maria Cervilla Alcalde
  */
 public class Article {
   private static int lastCode = 0;
 
+  /**
+   * Código del artículo
+   */
   private int code;
+  /**
+   * Nombre del artículo
+   */
   private String name;
+  /**
+   * Marca del artículo
+   */
   private String brand;
-  private double purchasePrice;
-  private double sellingPrice;
+  /**
+   * Número de unidades del artículo
+   */
   private int numberUnits;
+  /**
+   * Precio de compra del artículo
+   */
+  private double purchasePrice;
+  /**
+   * Precio de venta del artículo
+   */
+  private double sellingPrice;
+  /**
+   * Stock de seguridad del artículo
+   */
   private int safetyStock;
+  /**
+   * Stock máximo del artículo
+   */
   private int maxStock;
 
 
   /**
-   * Crea un artículo.
-   * @param name
-   * @param brand
-   * @param numberUnits
-   * @param purchasePrice
-   * @param sellingPrice
-   * @param safetyStock
-   * @param maxStock
+   * Crea un nuevo artículo.
+   * @param name Nombre del artículo
+   * @param brand Marca del artículo
+   * @param numberUnits Número de unidades del artículo
+   * @param purchasePrice Precio de compra del artículo
+   * @param sellingPrice Precio de venta del artículo
+   * @param safetyStock Stock de seguridad del artículo
+   * @param maxStock Stock máximo del artículo
    */
   Article(String name, String brand, int numberUnits, double purchasePrice, double sellingPrice,
       int safetyStock, int maxStock) {
@@ -42,13 +63,13 @@ public class Article {
 
   /**
    * Asigna los valores de los atributos de artículo.
-   * @param name
-   * @param brand
-   * @param numberUnits
-   * @param purchasePrice
-   * @param sellingPrice
-   * @param safetyStock
-   * @param maxStock
+   * @param name Nuevo nombre del artículo
+   * @param brand Nueva marca del artículo
+   * @param numberUnits Nuevo número de unidades del artículo
+   * @param purchasePrice Nuevo precio de compra del artículo
+   * @param sellingPrice Nuevo precio de venta del artículo
+   * @param safetyStock Nuevo stock de seguridad del artículo
+   * @param maxStock Nuevo stock máximo del artículo
    */
   void set(String name, String brand, int numberUnits, double purchasePrice, double sellingPrice,
       int safetyStock, int maxStock) {
@@ -63,15 +84,15 @@ public class Article {
   }
 
   /**
-   * Crea un artículo.
-   * @param code
-   * @param name
-   * @param brand
-   * @param numberUnits
-   * @param purchasePrice
-   * @param sellingPrice
-   * @param safetyStock
-   * @param maxStock
+   * Crea un artículo con el código.
+   * @param code Código del artículo
+   * @param name Nombre del artículo
+   * @param brand Marca del artículo
+   * @param numberUnits Número de unidades del artículo
+   * @param purchasePrice Precio de compra del artículo
+   * @param sellingPrice Precio de venta del artículo
+   * @param safetyStock Stock de seguridad del artículo
+   * @param maxStock Stock máximo del artículo
    */
   Article(int code, String name, String brand, int numberUnits, double purchasePrice,
       double sellingPrice, int safetyStock, int maxStock) {
@@ -80,13 +101,13 @@ public class Article {
   }
 
   /**
-   * Crea un artículo.
-   * @param name
-   * @param brand
-   * @param purchasePrice
-   * @param sellingPrice
-   * @param numberUnits
-   * @param safetyStock
+   * Crea un artículo sin stock máximo
+   * @param name Nombre del artículo
+   * @param brand Marca del artículo
+   * @param numberUnits Número de unidades del artículo
+   * @param purchasePrice Precio de compra del artículo
+   * @param sellingPrice Precio de venta del artículo
+   * @param safetyStock Stock de seguridad del artículo
    */
   Article(String name, String brand, double purchasePrice, double sellingPrice, int numberUnits,
       int safetyStock) {
@@ -94,20 +115,20 @@ public class Article {
   }
 
   /**
-   * Crea un artículo.
-   * @param name
-   * @param brand
-   * @param purchasePrice
-   * @param sellingPrice
-   * @param numberUnits
+   * Crea un artículo sin stock de seguridad ni stock máximo
+   * @param name Nombre del artículo
+   * @param brand Marca del artículo
+   * @param numberUnits Número de unidades del artículo
+   * @param purchasePrice Precio de compra del artículo
+   * @param sellingPrice Precio de venta del artículo
    */
   Article(String name, String brand, double purchasePrice, double sellingPrice, int numberUnits) {
     this(name, brand, numberUnits, purchasePrice, sellingPrice, 0, 0);
   }
 
   /**
-   * Crea un artículo.
-   * @param code
+   * Crea un artículo solo con el código.
+   * @param code Cófigo del artículo
    */
   Article(int code) {
     this.code = code;
@@ -116,7 +137,7 @@ public class Article {
 
   /**
    * Añade unidades al artículo.
-   * @param units
+   * @param units Unidades del artículo
    */
   void addUnits(int units) {
     numberUnits += units;
@@ -124,8 +145,8 @@ public class Article {
 
   /**
    * Incrementa unidades al artículo.
-   * @param units
-   * @throws StockException
+   * @param units Unidades del artículo
+   * @throws StockException Si al sacar unidades el stock es insuficiente
    */
   void deleteUnits(int units) throws StockException {
     if (numberUnits < units) {
@@ -136,7 +157,7 @@ public class Article {
 
   /**
    * Devuelve el código del artículo.
-   * @return
+   * @return code Código del artículo
    */
   public int getCode() {
     return code;
@@ -144,16 +165,16 @@ public class Article {
 
   /**
    * Devuelve el nombre del artículo.
-   * @return
-   */
+   * @return name Nombre del artículo
+   */ 
   public String getName() {
     return name;
   }
 
 
   /**
-   * Asigna el nombre del artículo.
-   * @param name
+   * Asigna el nombre del artículo
+   * @param name Nombre del artículo
    */
   void setName(String name) {
     throwsExceptionIfIncorrectFact(name);
@@ -162,8 +183,8 @@ public class Article {
 
 
   /**
-   * Devuelve la marca del artículo.
-   * @return
+   * Devuelve la marca del artículo
+   * @return brand Marca del artículo
    */
   public String getBrand() {
     return brand;
@@ -172,8 +193,8 @@ public class Article {
 
 
   /**
-   * Asigna la marca del artículo.
-   * @param brand
+   * Asigna la marca del artículo
+   * @param brand Marca del artículo
    */
   void setBrand(String brand) {
     throwsExceptionIfIncorrectFact(brand);
@@ -183,8 +204,8 @@ public class Article {
 
 
   /**
-   * Devuelve el precio de compra del artículo.
-   * @return
+   * Devuelve el precio de compra del artículo
+   * @return purchasePrice Precio de compra del artículo
    */
   public double getPurchasePrice() {
     return purchasePrice;
@@ -193,8 +214,8 @@ public class Article {
 
 
   /**
-   * Asigna el precio de compra del artículo.
-   * @param purchasePrice
+   * Asigna el precio de compra del artículo
+   * @param purchasePrice Precio de compra del artículo
    */
   void setPurchasePrice(double purchasePrice) {
     throwsExceptionIfAmountIsNegative(purchasePrice);
@@ -204,8 +225,8 @@ public class Article {
 
 
   /**
-   * Devuelve el precio de venta del artículo.
-   * @return
+   * Devuelve el precio de venta del artículo
+   * @return sellingPrice Precio de venta del artículo
    */
   public double getSellingPrice() {
     return sellingPrice;
@@ -214,8 +235,8 @@ public class Article {
 
 
   /**
-   * Asigna el precio de venta del artículo.
-   * @param sellingPrice
+   * Asigna el precio de venta del artículo
+   * @param sellingPrice Precio de venta del artículo
    */
   void setSellingPrice(double sellingPrice) {
     throwsExceptionIfAmountIsNegative(sellingPrice);
@@ -225,8 +246,8 @@ public class Article {
 
 
   /**
-   * Devuelve el número de unidades del artículo.
-   * @return
+   * Devuelve el número de unidades del artículo
+   * @return numberUnits Número de unidades del artículo
    */
   public int getNumberUnits() {
     return numberUnits;
@@ -235,8 +256,8 @@ public class Article {
 
 
   /**
-   * Asigna el número de unidades de un artículo.
-   * @param numberUnits
+   * Asigna el número de unidades de un artículo
+   * @param numberUnits Número de unidades del artículo
    */
   void setNumberUnits(int numberUnits) {
     throwsExceptionIfAmountIsNegative(numberUnits);
@@ -246,8 +267,8 @@ public class Article {
 
 
   /**
-   * Devuelve el stock de seguridad del artículo.
-   * @return
+   * Devuelve el stock de seguridad del artículo
+   * @return safetyStock Stock de seguridad del artículo
    */
   public int getSafetyStock() {
     return safetyStock;
@@ -256,8 +277,8 @@ public class Article {
 
 
   /**
-   * Asigna el stock de seguridad del artículo.
-   * @param safetyStock
+   * Asigna el stock de seguridad del artículo
+   * @param safetyStock Stock de seguridad del artículo
    */
   void setSafetyStock(int safetyStock) {
     throwsExceptionIfAmountIsNegative(safetyStock);
@@ -265,16 +286,16 @@ public class Article {
   }
 
   /**
-   * Devuelve el stock máximo del artículo.
-   * @return
+   * Devuelve el stock máximo del artículo
+   * @return maxStock Stock máximo del artículo
    */
   public int getMaxStock() {
     return maxStock;
   }
 
   /**
-   * Asigna el stock máximo del artículo.
-   * @param maxStock
+   * Asigna el stock máximo del artículo
+   * @param maxStock Stock máximo del artículo
    */
   void setMaxStock(int maxStock) {
     throwsExceptionIfAmountIsNegative(maxStock);
@@ -325,3 +346,4 @@ public class Article {
 
 
 }
+
