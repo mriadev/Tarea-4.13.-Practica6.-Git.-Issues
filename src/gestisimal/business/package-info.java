@@ -1,5 +1,5 @@
 /**
- * Gestionas las clases necesarias para modelar un almacén de artículos en
+ * Gestiona las clases necesarias para modelar un almacén de artículos en
  * la parte de negocio.
  * 
  * @author Maria Cervilla Alcalde

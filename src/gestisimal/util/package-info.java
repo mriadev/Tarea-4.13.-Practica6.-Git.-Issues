@@ -1,5 +1,5 @@
 /**
- * Gestionas la clase Util para simplificar procesos.
+ * Gestiona la clase Util para simplificar procesos.
  * 
  * @author Maria Cervilla Alcalde
  *
