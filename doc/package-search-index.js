@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"gestisimal"},{"l":"gestisimal.business"},{"l":"gestisimal.presentation"},{"l":"gestisimal.util"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"gestisimal"},{"l":"gestisimal.presentation"},{"l":"gestisimal.util"}];updateSearchResults();
